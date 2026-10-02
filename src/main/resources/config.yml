@@ -1,0 +1,19 @@
+# Czas odliczania przed teleportacją (w sekundach)
+teleport-delay: 10
+
+# Wiadomości tekstowe
+messages:
+  only-players: "Ta komenda jest dostępna tylko dla graczy!"
+  tpa-usage: "&cUżycie: /tpa <gracz>"
+  player-not-found: "&cNie znaleziono takiego gracza na serwerze!"
+  cannot-tpa-self: "&cNie możesz wysłać prośby do samego siebie!"
+  request-sent: "&aWysłano prośbę o teleportację do gracza &e{player}&a!"
+  request-received: "&aGracz &e{player} &achce przeteleportować się do Ciebie! Wpisz &e/tpaccept&a, aby zaakceptować."
+  no-pending-request: "&cNie masz żadnych oczekujących próśb o teleportację!"
+  request-accepted-sender: "&aGracz &e{player} &azaakceptował Twoją prośbę. Teleportacja nastąpi za {delay}s!"
+  request-accepted-target: "&aZaakceptowano prośbę o teleportację od &e{player}&a."
+  teleport-success: "&aPrzeteleportowano!"
+
+# Ustawienia napisów na środku ekranu (Title)
+title:
+  subtitle: "&eSekund do teleportacji"
