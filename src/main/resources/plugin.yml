@@ -1,0 +1,9 @@
+name: CustomTPA
+version: 1.0
+main: com.example.customtpa.CustomTPA
+api-version: '1.21'
+commands:
+  tpa:
+    description: Wysyła prośbę o teleportację do gracza
+  tpaccept:
+    description: Akceptuje prośbę o teleportację
