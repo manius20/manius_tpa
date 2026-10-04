@@ -6,6 +6,8 @@ settings:
   teleport-delay: 10             # Czas odliczania do teleportacji w sekundach
   request-timeout: 60            # Czas ważności prośby TPA w sekundach
   cancel-on-move: true           # Czy ruch gracza przerywa teleportację
+  cancel-on-player-damage: true  # Czy atak gracza przerywa teleportację
+  damage-cooldown: 25            # Czas blokady TPA po ataku gracza (w sekundach)
 
 messages:
   prefix: "&8[&aTPA&8] "
@@ -13,6 +15,7 @@ messages:
   usage-tpa: "&cUżycie: /tpa <gracz>"
   player-not-found: "&cGracz o nazwie '&4%player%&c' jest offline!"
   cannot-tpa-self: "&cNie możesz wysłać prośby o teleportację do samego siebie!"
+  cooldown-active: "&cZostałeś niedawno zaatakowany! Musisz odczekać jeszcze %seconds%s przed kolejnym TPA."
   request-sent: "&aWysłano prośbę o teleportację do gracza &e%player%&a."
   request-received: "&e%player% &7chce się do Ciebie przeteleportować! "
   accept-button: "&a&l[KLIKNIJ TUTAJ, ABY ZAAKCEPTOWAĆ]"
@@ -34,3 +37,6 @@ titles:
   teleport-cancelled-move:
     title: "&cTeleportacja przerwana!"
     subtitle: "&7Poruszyłeś się!"
+  teleport-cancelled-damage:
+    title: "&cTeleportacja przerwana!"
+    subtitle: "&7Zostałeś zaatakowany przez gracza!"
