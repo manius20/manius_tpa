@@ -1,0 +1,36 @@
+# ======================================================
+#              TPAPlugin - Konfiguracja
+# ======================================================
+
+settings:
+  teleport-delay: 10             # Czas odliczania do teleportacji w sekundach
+  request-timeout: 60            # Czas ważności prośby TPA w sekundach
+  cancel-on-move: true           # Czy ruch gracza przerywa teleportację
+
+messages:
+  prefix: "&8[&aTPA&8] "
+  player-only: "&cTa komenda jest przeznaczona tylko dla graczy!"
+  usage-tpa: "&cUżycie: /tpa <gracz>"
+  player-not-found: "&cGracz o nazwie '&4%player%&c' jest offline!"
+  cannot-tpa-self: "&cNie możesz wysłać prośby o teleportację do samego siebie!"
+  request-sent: "&aWysłano prośbę o teleportację do gracza &e%player%&a."
+  request-received: "&e%player% &7chce się do Ciebie przeteleportować! "
+  accept-button: "&a&l[KLIKNIJ TUTAJ, ABY ZAAKCEPTOWAĆ]"
+  accept-hover: "&7Kliknij, aby przeteleportować gracza do siebie"
+  no-pending-request: "&cNie masz żadnej oczekującej prośby o teleportację!"
+  request-accepted-target: "&aZaakceptowano prośbę o teleportację od &e%player%&a."
+  request-accepted-sender: "&e%player% &azaakceptował Twoją prośbę! Teleportacja za %delay%s."
+  request-denied-target: "&cOdrzucono prośbę o teleportację od &e%player%&c."
+  request-denied-sender: "&e%player% &codrzucił Twoją prośbę o teleportację."
+  request-expired: "&cProśba o teleportację od &e%player% &cwygasła."
+
+titles:
+  teleporting:
+    title: "&eTeleportacja..."
+    subtitle: "&7Za &c%seconds%s &7nie ruszaj się!"
+  teleport-success:
+    title: "&aPrzeteleportowano!"
+    subtitle: "&7Pomyślnie przeteleportowano do &e%player%"
+  teleport-cancelled-move:
+    title: "&cTeleportacja przerwana!"
+    subtitle: "&7Poruszyłeś się!"
