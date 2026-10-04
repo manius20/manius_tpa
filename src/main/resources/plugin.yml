@@ -1,0 +1,12 @@
+name: manius_tpa
+version: 1.0.0
+main: pl.sesion16.tpaplugin.TPAPlugin
+api-version: '1.20'
+author: Sesion16
+commands:
+  tpa:
+    description: Wysyła prośbę o teleportację do gracza
+  tpaccept:
+    description: Akceptuje prośbę o teleportację
+  tpadeny:
+    description: Odrzuca prośbę o teleportację
