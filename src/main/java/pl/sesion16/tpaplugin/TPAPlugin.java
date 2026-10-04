@@ -11,8 +11,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +28,7 @@ public class TPAPlugin extends JavaPlugin implements Listener, CommandExecutor {
 
     private final Map<UUID, TPARequest> pendingRequests = new HashMap<>();
     private final Map<UUID, TeleportSession> activeTeleports = new HashMap<>();
+    private final Map<UUID, Long> damageCooldowns = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -47,6 +50,7 @@ public class TPAPlugin extends JavaPlugin implements Listener, CommandExecutor {
         }
         pendingRequests.clear();
         activeTeleports.clear();
+        damageCooldowns.clear();
     }
 
     private Component color(String text) {
@@ -80,6 +84,18 @@ public class TPAPlugin extends JavaPlugin implements Listener, CommandExecutor {
             if (args.length < 1) {
                 player.sendMessage(color(getPrefixedMessage("usage-tpa")));
                 return true;
+            }
+
+            // Sprawdzanie cooldownu po obrażeniach od gracza
+            if (damageCooldowns.containsKey(player.getUniqueId())) {
+                long timeLeft = (damageCooldowns.get(player.getUniqueId()) - System.currentTimeMillis()) / 1000;
+                if (timeLeft > 0) {
+                    String msg = getPrefixedMessage("cooldown-active").replace("%seconds%", String.valueOf(timeLeft));
+                    player.sendMessage(color(msg));
+                    return true;
+                } else {
+                    damageCooldowns.remove(player.getUniqueId());
+                }
             }
 
             Player target = Bukkit.getPlayer(args[0]);
@@ -248,6 +264,35 @@ public class TPAPlugin extends JavaPlugin implements Listener, CommandExecutor {
             String title = getConfig().getString("titles.teleport-cancelled-move.title", "&cTeleportacja przerwana!");
             String subtitle = getConfig().getString("titles.teleport-cancelled-move.subtitle", "&7Poruszyłeś się!");
             showTitle(player, title, subtitle);
+        }
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof Player victim)) return;
+        if (!activeTeleports.containsKey(victim.getUniqueId())) return;
+
+        if (!getConfig().getBoolean("settings.cancel-on-player-damage", true)) return;
+
+        boolean isPlayerAttacker = false;
+        if (event.getDamager() instanceof Player) {
+            isPlayerAttacker = true;
+        } else if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player) {
+            isPlayerAttacker = true;
+        }
+
+        if (isPlayerAttacker) {
+            TeleportSession session = activeTeleports.remove(victim.getUniqueId());
+            if (session != null) {
+                session.cancelTask();
+            }
+
+            int cooldownSeconds = getConfig().getInt("settings.damage-cooldown", 25);
+            damageCooldowns.put(victim.getUniqueId(), System.currentTimeMillis() + (cooldownSeconds * 1000L));
+
+            String title = getConfig().getString("titles.teleport-cancelled-damage.title", "&cTeleportacja przerwana!");
+            String subtitle = getConfig().getString("titles.teleport-cancelled-damage.subtitle", "&7Zostałeś zaatakowany przez gracza!");
+            showTitle(victim, title, subtitle);
         }
     }
 
